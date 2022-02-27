@@ -1,5 +1,5 @@
 from pywifi import const, PyWiFi, Profile
-from threading import Thread
+from Singleton import  MyClass
 from termcolor import cprint
 from itertools import cycle
 from winsound import Beep
@@ -12,7 +12,7 @@ interface = wifi.interfaces()[0]
 loading_chars = iter(cycle('/-\|'))
 colors = iter(cycle(['blue', 'red']))
 password_list = "passwordList.txt"
-
+c = MyClass()
 
 def scan():
     interface.scan()
@@ -108,8 +108,13 @@ def startHack(selected, h):
                 print(f' {tests} Password tested!')
                 results+=f' {tests} Password tested!\n'
                 break
+
+            c.addResults(results)
+            results = ""
     sleep(1)
     input(' Press enter to exit...')
     print(f' {tests} Password tested!')
     results += f' {tests} Password tested!\n'
-    return results
+    c.addResults(results)
+    c.setIsOver(True)
+
