@@ -1,7 +1,7 @@
 import tkinter as tk
 from threading import Thread
 from time import sleep
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from GetWifiData import getData
 from passwordGenerator import Generate
 from WiFiCracker import getHosts, startHack
@@ -9,7 +9,7 @@ from Singleton import MyClass
 
 LARGEFONT = ("Verdana", 35)
 c = MyClass()
-
+#  pyinstaller --onefile --icon "Files/icone.ico" main.py
 
 class tkinterApp(tk.Tk):
 
@@ -17,7 +17,7 @@ class tkinterApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         # __init__ function for class Tk
         tk.Tk.__init__(self, *args, **kwargs)
-        self.iconbitmap("Files/icone.ico")
+        self.iconbitmap("C:/Users/user/Videos/python/Wifi GUI/Files/icone.ico")
         # creating a container
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
@@ -168,11 +168,23 @@ class Page2(tk.Frame):
         e3 = tk.Entry(self)
         e3.grid(row=11, column=4)
 
+
+
+        def genererMDP7():
+            Generate(self.selection, e1.get(), e2.get(), e3.get())
+            messagebox.showinfo("Password Making", "mots de passe generes")
+        def genererMDP1():
+            Generate(self.selection, e1.get(), e2.get(), "")
+            messagebox.showinfo("Password Making", "mots de passe generes")
+
+
         def genererMDP():
             if self.selection == "7":
-                Generate(self.selection, e1.get(), e2.get(), e3.get())
+                thread1 = Thread(target=genererMDP7)
+                thread1.start()
             else:
-                Generate(self.selection, e1.get(), e2.get(), "")
+                thread1 = Thread(target=genererMDP1)
+                thread1.start()
 
         button4 = ttk.Button(self, text="Générer",
                              command=genererMDP)
@@ -207,9 +219,10 @@ class Page3(tk.Frame):
 
         def attack():
             startHack(e3.get(), self.hosts)
+            messagebox.showinfo("Testing", "Piratage Fini !")
 
         def Attaquer():
-            text_widget.insert(tk.END, "Attaque en cours...")
+            text_widget.insert(tk.END, "Attaque en cours...\n")
             thread1 = Thread(target=attack)
             thread1.start()
             thread2 = Thread(target=display)
@@ -229,12 +242,17 @@ class Page3(tk.Frame):
         def Effacer():
             text_widget.delete("1.0", "end")
 
-        def GetWifiInfos():
-            text_widget.delete("1.0", "end")
+        def getInfos():
             res = getHosts()
             self.hosts = res[0]
             self.res = res[1]
             text_widget.insert(tk.END, self.res)
+            messagebox.showinfo("Scanning", "Collecte d'infos finie !")
+
+        def GetWifiInfos():
+            text_widget.delete("1.0", "end")
+            thread3 = Thread(target=getInfos)
+            thread3.start()
 
         button4 = ttk.Button(self, text="Voir les réseaux",
                              command=GetWifiInfos)

