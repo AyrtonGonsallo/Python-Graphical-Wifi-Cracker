@@ -1,15 +1,16 @@
 import tkinter as tk
 from threading import Thread
 from time import sleep
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, font
 from GetWifiData import getData
 from passwordGenerator import Generate
 from WiFiCracker import getHosts, startHack
 from Singleton import MyClass
 
+
 LARGEFONT = ("Verdana", 35)
 c = MyClass()
-#  pyinstaller --onefile --icon "Files/icone.ico" main.py
+#  pyinstaller --onefile --icon "Files/icone.ico" --noconsole main.py
 
 class tkinterApp(tk.Tk):
 
@@ -25,6 +26,7 @@ class tkinterApp(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         menu_bar = tk.Menu(self)
+
         menu_file = tk.Menu(menu_bar, tearoff=0)
 
         def showA():
@@ -95,14 +97,13 @@ class Page1(tk.Frame):
 
         # code ------------------------------------
         # Create the text widget
-        frame1 = tk.Frame(self)
+        frame1 = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         frame1.grid(row=1, column=2, padx=10, pady=10)
         text_widget = tk.Text(frame1, height=10, width=100)
         scroll_bar = tk.Scrollbar(frame1)
 
         long_text = """ici seront affichés les résultats
         """
-
         text_widget.pack(side="left", )
         scroll_bar.pack(side="right", fill="y")
         # Insert text into the text widget
@@ -117,11 +118,14 @@ class Page1(tk.Frame):
             text_widget.delete("1.0", "end")
             text_widget.insert(tk.END, getData())
 
-        button4 = ttk.Button(self, text="Afficher",
+        button4 = tk.Button(self, text="Afficher", bg='#0051ff', fg='#ffffff',
                              command=GetWifiInfos)
+        myFont = font.Font(family='Helvetica', size=20, weight='bold')
+        button4['font'] = myFont
         button4.grid(row=0, column=3, padx=10, pady=10)
-        button5 = ttk.Button(self, text="Effacer",
+        button5 = tk.Button(self, text="Effacer",bg='#019c01', fg='#ffffff',
                              command=Effacer)
+        button5['font'] = myFont
         button5.grid(row=1, column=3, padx=10, pady=10)
 
 
@@ -186,8 +190,10 @@ class Page2(tk.Frame):
                 thread1 = Thread(target=genererMDP1)
                 thread1.start()
 
-        button4 = ttk.Button(self, text="Générer",
+        button4 = tk.Button(self, text="Générer",bg='#019c01', fg='#ffffff',
                              command=genererMDP)
+        myFont = font.Font(family='Helvetica', size=20, weight='bold')
+        button4['font'] = myFont
         button4.grid(row=12, column=3, padx=10, pady=10)
 
 
@@ -197,14 +203,16 @@ class Page3(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="Craquer des Wifi", font=LARGEFONT)
+        label = ttk.Label(self, text="Craquer des réseaux", font=LARGEFONT)
         label.grid(row=0, column=2, padx=10, pady=10)
 
         # code ------------------------------------
         # Create the text widget
-        frame1 = tk.Frame(self)
+        frame1 = tk.Frame(self, highlightbackground="blue", highlightthickness=2)
         frame1.grid(row=1, column=2, padx=10, pady=10)
-        text_widget = tk.Text(frame1, height=10, width=100)
+        text_widget = tk.Text(frame1, height=10, width=100,bg='#000000', fg='#ffffff')
+        myFont = font.Font(family='Helvetica', size=10, weight='bold')
+        text_widget['font'] = myFont
         scroll_bar = tk.Scrollbar(frame1)
 
         long_text = """ici seront affichés les résultats
@@ -238,11 +246,13 @@ class Page3(tk.Frame):
                 res2 = c.getResults()
                 text_widget.insert(tk.END, res2)
                 c.setResults("")
+                c.setIsOver(False)
 
         def Effacer():
             text_widget.delete("1.0", "end")
 
         def getInfos():
+            button6["state"] = tk.NORMAL
             res = getHosts()
             self.hosts = res[0]
             self.res = res[1]
@@ -254,17 +264,22 @@ class Page3(tk.Frame):
             thread3 = Thread(target=getInfos)
             thread3.start()
 
-        button4 = ttk.Button(self, text="Voir les réseaux",
+
+        button4 = tk.Button(self, text="Voir les réseaux",bg='#019c01', fg='#ffffff',
                              command=GetWifiInfos)
+        button4['font'] = myFont
         button4.grid(row=0, column=3, padx=10, pady=10)
-        button5 = ttk.Button(self, text="Effacer",
+        button5 = tk.Button(self, text="Effacer",bg='#0051ff', fg='#ffffff',
                              command=Effacer)
+        button5['font'] = myFont
         button5.grid(row=1, column=3, padx=10, pady=10)
         tk.Label(self, text="Réseau a attaquer").grid(row=2, column=3)
         e3 = tk.Entry(self)
         e3.grid(row=2, column=4)
-        button6 = ttk.Button(self, text="Attaquer",
+        button6 = tk.Button(self, text="Attaquer",bg='#ff0000', fg='#ffffff',
                              command=Attaquer)
+        button6["state"] = tk.DISABLED
+        button6['font'] = myFont
         button6.grid(row=3, column=4, padx=10, pady=10)
 
 

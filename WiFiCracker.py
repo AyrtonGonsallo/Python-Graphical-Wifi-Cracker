@@ -72,9 +72,7 @@ def startHack(selected, h):
             break
 
         except AssertionError:
-            print(f'\n "{selected_host}" is not a valid host number')
             results+=f'\n "{selected_host}" is not a valid host number'
-            selected_host = input('\n Please enter a valid host: ')
 
         except:
             if selected_host in hosts:
@@ -97,16 +95,13 @@ def startHack(selected, h):
             tests += 1
             #color = next(colors)
             # cprint(f' Test du mot de passe nº{tests}: {password}\n', color=color)
-            results+=f' Test du mot de passe nº{tests}: {password}\n'
+            results+=f' Test du mot de passe nº{tests}: {password}'
 
 
             if testwifi(target, password):
                 Beep(700, 500)
                 Beep(1000, 500)
-                cprint(f' Mot de passe trouvé: {password}', color='green')
                 results+=f' Mot de passe trouvé : {password}'
-                # print(f' {tests} Password tested!')
-                results+=f' {tests} Password tested!\n'
                 break
 
             c.addResults(results)
