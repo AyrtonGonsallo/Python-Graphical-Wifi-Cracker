@@ -10,7 +10,7 @@ os.system('cls')
 
 def getData():
     res = ""
-    res += '{:<30}|  Mots de passe\n'.format('Reseaux')
+    res += '{:<50}|  Mots de passe\n'.format('Reseaux')
     output = subprocess.check_output(['netsh', 'wlan', 'show', 'profiles']).decode('windows-1252').splitlines()
 
     profiles = [i.split(':', 1)[1][1:] for i in output if 'Profil Tous les utilisateurs' in i]
@@ -21,9 +21,9 @@ def getData():
         color = next(colors)
         try:
             password = [b.split(':', 1)[1][1:] for b in result if 'Contenu de la cl' in b][0]
-            res += f'{profile:<30}|  {password}\n'
+            res += f'{profile:<60}  {password}\n'
         except:
-            res += f'{profile:<30}|  <No password>\n'
+            res += f'{profile:<60}  <No password>\n'
         finally:
             sleep(.1)
 

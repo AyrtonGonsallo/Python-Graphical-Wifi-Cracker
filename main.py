@@ -94,12 +94,13 @@ class Page1(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Mots de passes des réseaux connus", font=LARGEFONT)
         label.grid(row=0, column=2, padx=10, pady=10)
-
+        myFont = font.Font(family='Helvetica', size=10, weight='bold')
         # code ------------------------------------
         # Create the text widget
         frame1 = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         frame1.grid(row=1, column=2, padx=10, pady=10)
-        text_widget = tk.Text(frame1, height=10, width=100)
+        text_widget = tk.Text(frame1, height=10, width=100,bg='#000000', fg='#ffffff')
+        text_widget['font']=myFont
         scroll_bar = tk.Scrollbar(frame1)
 
         long_text = """ici seront affichés les résultats
@@ -118,12 +119,13 @@ class Page1(tk.Frame):
             text_widget.delete("1.0", "end")
             text_widget.insert(tk.END, getData())
 
-        button4 = tk.Button(self, text="Afficher", bg='#0051ff', fg='#ffffff',
-                             command=GetWifiInfos)
         myFont = font.Font(family='Helvetica', size=20, weight='bold')
+        button4 = tk.Button(self, text="Afficher", bg='#019c01', fg='#ffffff',
+                             command=GetWifiInfos)
+
         button4['font'] = myFont
         button4.grid(row=0, column=3, padx=10, pady=10)
-        button5 = tk.Button(self, text="Effacer",bg='#019c01', fg='#ffffff',
+        button5 = tk.Button(self, text="Effacer",bg='#0051ff', fg='#ffffff',
                              command=Effacer)
         button5['font'] = myFont
         button5.grid(row=1, column=3, padx=10, pady=10)
@@ -210,7 +212,7 @@ class Page3(tk.Frame):
         # Create the text widget
         frame1 = tk.Frame(self, highlightbackground="blue", highlightthickness=2)
         frame1.grid(row=1, column=2, padx=10, pady=10)
-        text_widget = tk.Text(frame1, height=10, width=100,bg='#000000', fg='#ffffff')
+        text_widget = tk.Text(frame1, height=10, width=100,bg='#000000', fg='#00ff00')
         myFont = font.Font(family='Helvetica', size=10, weight='bold')
         text_widget['font'] = myFont
         scroll_bar = tk.Scrollbar(frame1)
@@ -264,6 +266,7 @@ class Page3(tk.Frame):
             thread3 = Thread(target=getInfos)
             thread3.start()
 
+        myFont = font.Font(family='Helvetica', size=20, weight='bold')
 
         button4 = tk.Button(self, text="Voir les réseaux",bg='#019c01', fg='#ffffff',
                              command=GetWifiInfos)
